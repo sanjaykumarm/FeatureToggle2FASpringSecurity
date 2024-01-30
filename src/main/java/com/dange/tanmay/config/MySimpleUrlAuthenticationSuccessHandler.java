@@ -2,7 +2,6 @@ package com.dange.tanmay.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -48,7 +47,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
     protected String determineTargetUrl(final Authentication authentication) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ROLE_USER", "user");
+        roleTargetUrlMap.put("ROLE_USER", "/user");
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin/manage-users");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

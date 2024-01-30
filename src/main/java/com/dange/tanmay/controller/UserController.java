@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -64,9 +65,24 @@ public class UserController {
         return "manage-users";
     }
 
+    @GetMapping("/login")
+    public String login(Model model) {
+        User user = new User();
+        user.setUsername("sanjay");
+        model.addAttribute("user", user);
+        System.out.println("=====Sanjay:Login:" + model);
+        return "login";
+    }
+
     @GetMapping("/user")
     public String viewUserPage(Model model) {
-        System.out.println("=====Sanjay:/user");
+        System.out.println("=====Sanjay:/user:");
+
+        /*User user = service.getUserByUsername(body.get("username"));
+
+        model.addAttribute("user", user);
+        model.addAttribute("forceEnable", FeatureToggleApplication.forceEnable);*/
+
         return "user";
     }
 
@@ -84,7 +100,11 @@ public class UserController {
     public String registerMFA(@PathVariable String username, Model model) {
         User user = new User();
         user.setUsername(username);
-        model.addAttribute("user", user);
+
+        ArrayList<User> users = new ArrayList<>();
+        users.add(user);
+
+        model.addAttribute("user", users);
         return "register-mfa";
     }
 
@@ -98,11 +118,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        System.out.println("=====Sanjay:Login:" + model);
-        return "login";
-    }
+
 
     @GetMapping("/error")
     public String error(Model model) {

@@ -34,7 +34,7 @@ public class WebSecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/example/enableNewFeatures/**").hasRole("ADMIN")
                 .antMatchers("/example/disableNewFeatures/**").hasRole("ADMIN")
                 .antMatchers("/example/about").hasAnyRole("USER","ADMIN")

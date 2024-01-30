@@ -13,8 +13,8 @@
 <table>
     <tbody>
         <tr th:each="user:${user}">
-          <td th:text="${user.userName}"></td>
-          <td><img  th:src="@{/code/generate/{name}(name=${user.userName})}" alt="Image"> </td>
+          <td th:text="${user.username}"></td>
+          <td><img  th:src="@{/code/generate/{name}(name=${user.username})}" alt="Image"> </td>
         </tr>
     </tbody>
 

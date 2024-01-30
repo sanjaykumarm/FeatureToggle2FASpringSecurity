@@ -16,16 +16,16 @@
 <div th:if="${param.logout}">
     You have been logged out.</div>
 
-<form  class="form-signin"  th:action="@{/login}" method="post">
+<form  class="form-signin"  th:action="@{/login}" method="post" th:object="${user}">
     <h1 class="form-signin-heading">Please Log In</h1>
     <div>
-        <input type="text" name="username" class="form-control" placeholder="Username"/>
+        <input type="text" th:value="*{username}" name="username" class="form-control" placeholder="Username"/>
     </div>
     <div>
-        <input type="password" name="password" class="form-control" placeholder="Password"/>
+        <input type="password" th:value="*{password}" name="password" class="form-control" placeholder="Password"/>
     </div>
     <div >
-        <input type="text" name="code" class="form-control" placeholder="Token">
+        <input type="text" th:value="*{code}" name="code" class="form-control" placeholder="Token">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-lock"></span>
