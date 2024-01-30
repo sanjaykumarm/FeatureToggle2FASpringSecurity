@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Action</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<h1>Register MFA</h1>
+<table>
+    <tbody>
+        <tr th:each="user:${user}">
+          <td th:text="${user.userName}"></td>
+          <td><img  th:src="@{/code/generate/{name}(name=${user.userName})}" alt="Image"> </td>
+        </tr>
+    </tbody>
+
+</table>
+
+</body>
