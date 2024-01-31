@@ -22,7 +22,7 @@ public class GoogleAuthenticatorService {
         final GoogleAuthenticatorKey key = gAuth.createCredentials(username);
 
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        String otpAuthURL = GoogleAuthenticatorQRGenerator.getOtpAuthTotpURL("my-demo", username, key);
+        String otpAuthURL = GoogleAuthenticatorQRGenerator.getOtpAuthTotpURL("eSupplier", username, key);
         return qrCodeWriter.encode(otpAuthURL, BarcodeFormat.QR_CODE, 200, 200);
     }
 

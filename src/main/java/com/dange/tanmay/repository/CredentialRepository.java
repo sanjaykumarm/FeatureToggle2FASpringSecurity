@@ -20,16 +20,16 @@ public class CredentialRepository implements ICredentialRepository {
 
     @Override
     public String getSecretKey(String username) {
-        return  userService.getUserByUsername(username).getCode();
+        return userService.getUserByUsername(username).getCode();
     }
 
     @Override
     public void saveUserCredentials(String userName, String secretKey, int validationCode, List<Integer> scratchCodes) {
 
-        User user =userService.getUserByUsername(userName);
+        User user = userService.getUserByUsername(userName);
         UserTOTP userTOTP = new UserTOTP(userName, secretKey, validationCode, scratchCodes);
         user.setCode(userTOTP.secretKey);
-        user.setMfaEnabled(true);
+        user.setMfaEnabled(false);
         userService.saveOrUpdate(user);
     }
 

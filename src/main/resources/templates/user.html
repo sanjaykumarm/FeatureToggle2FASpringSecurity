@@ -18,8 +18,29 @@
 
 <h1>This is the user page</h1>
 
-<a th:href="@{/admin/register-mfa/{name}(name='user1')}"
-   class="btn btn-primary">Register MFA</a>
+User details: <span th:text="${user}" /> <br/><br/>
+Force Enable: <span th:text="${forceEnable}" /> <br/><br/>
+
+
+
+<div th:if="${user.mfaEnabled} == true"><p>
+    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+       class="btn btn-primary" th:classappend="disabled">Register MFA</a>
+</p></div>
+<div th:if="${user.mfaEnabled} == null"><p>
+    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+       class="btn btn-primary">Register MFA</a>
+</p></div>
+<div th:if="${user.mfaEnabled} == false"><p>
+    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+       class="btn btn-primary">Register MFA</a>
+</p></div>
+
+<div th:if="${user.mfaEnabled} == true"><p>
+    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+       class="btn btn-primary">Reset MFA</a>
+</p></div>
+
 
 </body>
 </html>

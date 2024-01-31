@@ -1,8 +1,11 @@
 package com.dange.tanmay.controller;
 
 
+import com.dange.tanmay.dao.User;
+import com.dange.tanmay.repository.CredentialRepository;
 import com.dange.tanmay.service.GoogleAuthenticatorService;
 import com.dange.tanmay.dao.ValidateCodeDao;
+import com.dange.tanmay.service.UserService;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
@@ -21,6 +24,9 @@ import java.io.ByteArrayOutputStream;
 @RequestMapping("/code")
 public class CodeController {
 
+    @Autowired
+    UserService userService;
+
     private final GoogleAuthenticator gAuth;
 
     @Autowired
@@ -38,7 +44,19 @@ public class CodeController {
 
     @PostMapping("/validate/key")
     public boolean validateKey(@RequestBody ValidateCodeDao body) {
-        return googleAuthenticatorService.validate(body.getUsername(), body.getCode());
+        String userName = body.getUsername();
+        int code = body.getCode();
+
+        boolean isValidated = googleAuthenticatorService.validate(userName, code);
+
+        //Enable the mfa enable to true only if validated.
+        if(isValidated) {
+            User user = userService.getUserByUsername(userName);
+            user.setMfaEnabled(true);
+            userService.saveOrUpdate(user);
+        }
+
+        return isValidated;
     }
 
 

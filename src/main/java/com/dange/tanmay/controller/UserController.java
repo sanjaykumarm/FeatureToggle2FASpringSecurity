@@ -5,11 +5,13 @@ import com.dange.tanmay.dao.User;
 import com.dange.tanmay.dao.ValidateCodeDao;
 import com.dange.tanmay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -75,13 +77,15 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String viewUserPage(Model model) {
-        System.out.println("=====Sanjay:/user:");
+    public String viewUserPage(Principal principal, Model model) {
+        System.out.println("=====Sanjay:/user:principal:" + principal);
 
-        /*User user = service.getUserByUsername(body.get("username"));
+        //User user = ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal());
+        String userName = ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUsername();
+        User user = service.getUserByUsername(userName);
 
         model.addAttribute("user", user);
-        model.addAttribute("forceEnable", FeatureToggleApplication.forceEnable);*/
+        model.addAttribute("forceEnable", FeatureToggleApplication.forceEnable);
 
         return "user";
     }
@@ -105,6 +109,11 @@ public class UserController {
         users.add(user);
 
         model.addAttribute("user", users);
+
+        ValidateCodeDao dto = new ValidateCodeDao();
+        dto.setUsername(username);
+        model.addAttribute("dto", dto);
+
         return "register-mfa";
     }
 

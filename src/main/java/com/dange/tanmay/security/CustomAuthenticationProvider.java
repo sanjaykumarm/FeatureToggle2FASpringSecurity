@@ -3,6 +3,7 @@ package com.dange.tanmay.security;
 import com.dange.tanmay.dao.User;
 import com.dange.tanmay.service.GoogleAuthenticatorService;
 import com.dange.tanmay.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -42,7 +43,13 @@ import java.util.List;
         if (!user.getPassword().equals(auth.getCredentials())){
             throw new BadCredentialsException("Invalid username or password");
         }
+
         if (user.getMfaEnabled() != null && user.getMfaEnabled()) {
+            //First check if user provided a verification code or not and if provided, is that a valid int number
+            if(!StringUtils.isNumeric(verificationCode)) {
+                throw new BadCredentialsException("Invalid verification code");
+            }
+
             if (!googleAuthenticatorService.validate(auth.getName(), Integer.parseInt(verificationCode))){
                 throw new BadCredentialsException("Invalid verification code");
             }
