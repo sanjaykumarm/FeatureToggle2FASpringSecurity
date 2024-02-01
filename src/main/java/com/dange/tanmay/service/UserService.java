@@ -30,6 +30,11 @@ public class UserService {
         repository.save(user);
     }
 
+    public void forceEnableMFA(String username, boolean forceEnabled)
+    {
+        repository.forceEnableMFA(forceEnabled, username);
+    }
+
     //deleting a specific record
     public String delete(int id){
         repository.deleteById(id);

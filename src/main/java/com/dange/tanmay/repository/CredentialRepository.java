@@ -27,6 +27,7 @@ public class CredentialRepository implements ICredentialRepository {
     public void saveUserCredentials(String userName, String secretKey, int validationCode, List<Integer> scratchCodes) {
 
         User user = userService.getUserByUsername(userName);
+        //This class is required by google authentication internally.
         UserTOTP userTOTP = new UserTOTP(userName, secretKey, validationCode, scratchCodes);
         user.setCode(userTOTP.secretKey);
         user.setMfaEnabled(false);

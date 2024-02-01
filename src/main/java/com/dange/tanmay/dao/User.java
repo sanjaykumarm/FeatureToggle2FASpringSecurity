@@ -27,7 +27,7 @@ public class User {
     public Boolean mfaEnabled;
 
     @Column(name="FORCE_ENABLED")
-    public String forceEnabled;
+    public Boolean forceEnabled;
 
     @Column(name="SECRET_KEY")
     public String code;

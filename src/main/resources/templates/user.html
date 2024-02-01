@@ -6,40 +6,44 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Please Log In</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 
 </head>
 <body>
 <div th:if="${param.error}">
-    Invalid username and password or Invalid Token Entered</div>
+    Invalid username and password or Invalid Token Entered
+</div>
 <div th:if="${param.logout}">
-    You have been logged out.</div>
+    You have been logged out.
+</div>
 
 <h1>This is the user page</h1>
 
-User details: <span th:text="${user}" /> <br/><br/>
-Force Enable: <span th:text="${forceEnable}" /> <br/><br/>
+User details: <span th:text="${user}"/> <br/><br/>
+Force Enable: <span th:text="${user.forceEnabled}"/> <br/><br/>
 
 
+<div th:if="${user.forceEnabled} == true">
+    <div th:if="${user.mfaEnabled} == true"><p>
+        <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+           class="btn btn-primary" th:classappend="disabled">Register MFA</a>
+    </p></div>
+    <div th:if="${user.mfaEnabled} == null"><p>
+        <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+           class="btn btn-primary">Register MFA</a>
+    </p></div>
+    <div th:if="${user.mfaEnabled} == false"><p>
+        <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+           class="btn btn-primary">Register MFA</a>
+    </p></div>
 
-<div th:if="${user.mfaEnabled} == true"><p>
-    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
-       class="btn btn-primary" th:classappend="disabled">Register MFA</a>
-</p></div>
-<div th:if="${user.mfaEnabled} == null"><p>
-    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
-       class="btn btn-primary">Register MFA</a>
-</p></div>
-<div th:if="${user.mfaEnabled} == false"><p>
-    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
-       class="btn btn-primary">Register MFA</a>
-</p></div>
-
-<div th:if="${user.mfaEnabled} == true"><p>
-    <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
-       class="btn btn-primary">Reset MFA</a>
-</p></div>
+    <div th:if="${user.mfaEnabled} == true"><p>
+        <a th:href="@{/admin/register-mfa/{name}(name=${user.username})}"
+           class="btn btn-primary">Reset MFA</a>
+    </p></div>
+</div>
 
 
 </body>

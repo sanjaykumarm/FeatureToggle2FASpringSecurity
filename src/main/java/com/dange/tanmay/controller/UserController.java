@@ -63,7 +63,6 @@ public class UserController {
     @GetMapping("/admin/manage-users")
     public String viewHomePage(Model model) {
         model.addAttribute("allUserlist", service.getAllUsers());
-        model.addAttribute("force_enable", FeatureToggleApplication.forceEnable);
         return "manage-users";
     }
 
@@ -85,7 +84,6 @@ public class UserController {
         User user = service.getUserByUsername(userName);
 
         model.addAttribute("user", user);
-        model.addAttribute("forceEnable", FeatureToggleApplication.forceEnable);
 
         return "user";
     }

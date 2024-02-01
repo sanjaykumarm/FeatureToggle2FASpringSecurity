@@ -1,11 +1,17 @@
 package com.dange.tanmay.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import com.dange.tanmay.dao.User;
+import com.dange.tanmay.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 public class RestControlller {
+
+    @Autowired
+    UserService userService;
 
     String DEFAULT_NAME = "tanmay";
     boolean newFeatures=false;
@@ -49,6 +55,14 @@ public class RestControlller {
     public String setDisableNewFeatures(){
         newFeatures=false;
         return "New Features Disabled";
+    }
+
+    @PutMapping(path = "/example/forceEnableMFA")
+    public String forceEnableMFA(@RequestBody ArrayList<User> users) {
+        for (User user: users) {
+            userService.forceEnableMFA(user.username, user.forceEnabled);
+        }
+        return "Users updated successfully.";
     }
 
 
