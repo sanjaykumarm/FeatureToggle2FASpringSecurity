@@ -1,6 +1,7 @@
 package com.dange.tanmay.controller;
 
 
+import com.dange.tanmay.dao.GenerateQRCode;
 import com.dange.tanmay.dao.User;
 import com.dange.tanmay.repository.CredentialRepository;
 import com.dange.tanmay.service.GoogleAuthenticatorService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 @Slf4j
 @RestController
@@ -36,10 +38,23 @@ public class CodeController {
     @GetMapping("/generate/{username}")
     public byte[]  generate(@PathVariable String username, HttpServletResponse response) {
 
-        BitMatrix bitMatrix = googleAuthenticatorService.generate(username);
+        BitMatrix bitMatrix = googleAuthenticatorService.generate(username, null);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         MatrixToImageWriter.writeToStream(bitMatrix, "PNG", byteArrayOutputStream);
         return  byteArrayOutputStream.toByteArray();
+    }
+
+    @SneakyThrows
+    @GetMapping("/generate2/{username}")
+    public GenerateQRCode  generate2(@PathVariable String username, HttpServletResponse response) {
+        GenerateQRCode generateQRCode = new GenerateQRCode();
+        generateQRCode.username = username;
+
+        BitMatrix bitMatrix = googleAuthenticatorService.generate(username, generateQRCode);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", byteArrayOutputStream);
+        generateQRCode.base64QRCode = Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+        return generateQRCode;
     }
 
     @PostMapping("/validate/key")

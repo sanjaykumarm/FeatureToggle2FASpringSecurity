@@ -70,10 +70,25 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- To check whether given string is valid integer or not -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <!-- To convert image qrcode bytes into base64 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+
+        <!--For encrypting secret key-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jcl</artifactId>
+        </dependency>
+
 
     </dependencies>
 </project>

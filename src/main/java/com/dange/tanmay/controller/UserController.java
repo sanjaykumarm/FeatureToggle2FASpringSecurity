@@ -6,6 +6,11 @@ import com.dange.tanmay.dao.ValidateCodeDao;
 import com.dange.tanmay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.*;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -103,10 +109,7 @@ public class UserController {
         User user = new User();
         user.setUsername(username);
 
-        ArrayList<User> users = new ArrayList<>();
-        users.add(user);
-
-        model.addAttribute("user", users);
+        model.addAttribute("user", user);
 
         ValidateCodeDao dto = new ValidateCodeDao();
         dto.setUsername(username);

@@ -44,16 +44,65 @@
     <hr>
     <h2>Validate OTP</h2>
 
-    <table>
-        <tbody>
-        <tr th:each="user:${user}">
+    <table id="data-table">
+        <!--<tbody>
+        <tr>
             <td th:text="${user.username}"></td>
             <td><img  th:src="@{/code/generate/{name}(name=${user.username})}" alt="Image"> </td>
         </tr>
-        </tbody>
+        </tbody>-->
+
+        <!-- Table body will be populated by JavaScript -->
+        <tbody></tbody>
 
     </table>
 
+
+    <script th:inline="javascript">
+
+        // Fetch data from the API on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            var api_url = '/code/generate2/' + /*[[${user.username}]]*/
+            fetch(api_url).then(response =>
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+            ).then(res => {
+                populateTable(res.data);
+                console.log(res.status, res.data)
+            }));
+        });
+
+        // Function to populate the table with data
+        function populateTable(data) {
+            var tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+            // Clear existing rows
+            tableBody.innerHTML = '';
+
+            // Populate the table with data
+            var row1 = tableBody.insertRow();
+            var cell1 = row1.insertCell(0);
+            var cell2 = row1.insertCell(1);
+            // Add more cells as needed
+            cell1.innerHTML = data.username;
+            var image = document.createElement('img');
+            image.src = 'data:image/png;base64,' + data.base64QRCode;
+            cell2.appendChild(image);
+
+            var row2 = tableBody.insertRow();
+            var cell3 = row2.insertCell(0);
+            var cell4 = row2.insertCell(1);
+
+            cell3.innerHTML = 'If you can\'t scan it, in the auth app, tap the \+ then tap Enter a set up key:';
+            cell4.innerHTML = data.setupkey;
+
+            // Populate other cells as needed
+        }
+    </script>
+
+    <br/><br/>
     <form id="myForm" action="#" th:action="@{/code/validate/key}" th:object="${dto}"
           method="POST">
         <input id="name" type="text" th:field="*{username}" placeholder="username"
